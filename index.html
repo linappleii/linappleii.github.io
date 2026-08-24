@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="color">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LinApple — Authentic Apple ][ Emulator for Linux</title>
+  <meta name="description" content="LinApple is a high-fidelity Apple ][, Apple ][+, Apple //e, and Enhanced //e emulator for Linux with SDL3, Terminal TUI, and Headless frontends.">
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600;700&family=VT323&display=swap" rel="stylesheet">
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <!-- Apple 6-Color Rainbow Stripe Header -->
+  <div class="rainbow-stripe" aria-hidden="true">
+    <div class="stripe-band stripe-green"></div>
+    <div class="stripe-band stripe-yellow"></div>
+    <div class="stripe-band stripe-orange"></div>
+    <div class="stripe-band stripe-red"></div>
+    <div class="stripe-band stripe-purple"></div>
+    <div class="stripe-band stripe-blue"></div>
+  </div>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="brand">
+        <span class="brand-logo" aria-hidden="true">🍏</span>
+        <div class="brand-text">
+          <span class="brand-name">LINAPPLE</span>
+          <span class="brand-sub">APPLE <span class="nowrap">][</span> EMULATOR FOR LINUX</span>
+        </div>
+      </div>
+
+      <nav class="main-nav" aria-label="Main Navigation">
+        <a href="#quick-start">Install</a>
+        <a href="#frontends">Frontends</a>
+        <a href="#features">Features</a>
+        <a href="#gallery">Gallery</a>
+        <a href="#shortcuts">Shortcuts</a>
+        <a href="https://github.com/linappleii/linapple" target="_blank" rel="noopener noreferrer" class="nav-github">GitHub ↗</a>
+      </nav>
+
+      <!-- Monitor Theme Switcher -->
+      <div class="theme-switcher-wrapper">
+        <label for="theme-select" class="theme-label">MONITOR:</label>
+        <select id="theme-select" class="retro-select" aria-label="Select CRT Monitor Rendering Mode">
+          <option value="color">🌈 Color NTSC</option>
+          <option value="green">🍏 P31 Green</option>
+          <option value="amber">🍊 P134 Amber</option>
+          <option value="modern">⚡ Crisp Flat</option>
+        </select>
+      </div>
+    </div>
+  </header>
+
+  <main id="main-content">
+    <!-- Hero Section -->
+    <section class="hero-section">
+      <div class="container hero-grid">
+        <div class="hero-content">
+          <div class="badge-row">
+            <span class="retro-badge badge-green">v3.x RELEASE</span>
+            <span class="retro-badge badge-blue">GPL v2.0</span>
+            <span class="retro-badge badge-purple">C++11 / C99</span>
+          </div>
+
+          <h1 class="hero-title">
+            THE DEFINITIVE <span class="highlight-apple nowrap">APPLE ][</span> EMULATOR FOR LINUX.
+          </h1>
+
+          <p class="hero-lead">
+            High-fidelity, cycle-accurate emulation of the <strong class="nowrap">Apple ][</strong>, <strong class="nowrap">Apple ][+</strong>, <strong class="nowrap">Apple //e</strong>, and <strong class="nowrap">Enhanced Apple //e</strong>. Built natively for modern Linux with SDL3, Terminal TUI, and Headless architectures.
+          </p>
+
+          <div class="hero-actions">
+            <a href="#quick-start" class="retro-btn btn-primary">
+              <span class="btn-icon">💾</span> GET LINAPPLE
+            </a>
+            <a href="https://github.com/linappleii/linapple" target="_blank" rel="noopener noreferrer" class="retro-btn btn-secondary">
+              <span class="btn-icon">⭐</span> VIEW ON GITHUB
+            </a>
+          </div>
+
+          <div class="hero-stats">
+            <div class="stat-item">
+              <span class="stat-value">6502 / 65C02</span>
+              <span class="stat-label">Cycle Accurate</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-value">5 Frontends</span>
+              <span class="stat-label">SDL3 • TUI • Headless</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-value">32MB 2MG</span>
+              <span class="stat-label">SmartPort Hard Disks</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Interactive CRT Bezel & Terminal Screen -->
+        <div class="crt-frame-wrapper">
+          <div class="crt-bezel">
+            <div class="bezel-badge">APPLE COLOR MONITOR //e</div>
+            <div class="crt-screen scanlines" id="crt-viewport">
+              <div class="screen-header">
+                <span class="screen-title">LINAPPLE //e DOS 3.3 SYSTEM</span>
+                <span class="drive-led" id="drive-led" aria-hidden="true">● D1</span>
+              </div>
+              <div class="terminal-body" id="terminal-output" tabindex="0" role="region" aria-live="polite" aria-label="Interactive Apple II Terminal">
+                <div class="term-line prompt-banner">Apple //e Enhanced (128K RAM, 80-COL)</div>
+                <div class="term-line">LINAPPLE CORE BRIDGE READY.</div>
+                <div class="term-line">Type <span class="term-hl">HELP</span>, <span class="term-hl">CATALOG</span>, <span class="term-hl">RUN</span>, or click below:</div>
+                <div class="term-line term-divider" aria-hidden="true">----------------------------------------</div>
+              </div>
+              <div class="terminal-input-row">
+                <span class="prompt-char">]</span>
+                <input type="text" id="term-input" class="term-input" autocomplete="off" spellcheck="false" placeholder="RUN LINAPPLE" aria-label="Terminal command input">
+                <span class="term-cursor" aria-hidden="true">▌</span>
+              </div>
+              <div class="term-quick-chips">
+                <button type="button" class="chip-btn" data-cmd="CATALOG">CATALOG</button>
+                <button type="button" class="chip-btn" data-cmd="RUN">RUN</button>
+                <button type="button" class="chip-btn" data-cmd="BENCHMARK">BENCHMARK</button>
+                <button type="button" class="chip-btn" data-cmd="ABOUT">ABOUT</button>
+                <button type="button" class="chip-btn" data-cmd="HELP">HELP</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Quick Installation & Downloads -->
+    <section class="section install-section" id="quick-start">
+      <div class="container">
+        <div class="section-heading">
+          <span class="section-pre">FAST & MODERN PACKAGING</span>
+          <h2 class="section-title">INSTALLATION & QUICK START</h2>
+          <p class="section-desc">Pre-built native packages and portable binaries are available for Linux <strong>x86_64</strong> and <strong>ARM64</strong> (Raspberry Pi OS 64-bit / Ubuntu ARM).</p>
+        </div>
+
+        <div class="install-container">
+          <!-- Install Tabs -->
+          <div class="install-tabs" role="tablist" aria-label="Operating System / Distribution">
+            <button class="tab-btn active" role="tab" aria-selected="true" data-tab="tab-deb" id="tab-deb-btn">Ubuntu / Debian</button>
+            <button class="tab-btn" role="tab" aria-selected="false" data-tab="tab-rpm" id="tab-rpm-btn">Fedora / RHEL</button>
+            <button class="tab-btn" role="tab" aria-selected="false" data-tab="tab-arch" id="tab-arch-btn">Arch Linux</button>
+            <button class="tab-btn" role="tab" aria-selected="false" data-tab="tab-tar" id="tab-tar-btn">Portable Tarball</button>
+            <button class="tab-btn" role="tab" aria-selected="false" data-tab="tab-source" id="tab-source-btn">Build Source</button>
+          </div>
+
+          <!-- Tab Contents -->
+          <div class="tab-panel active" role="tabpanel" id="tab-deb" aria-labelledby="tab-deb-btn">
+            <div class="code-box">
+              <div class="code-header">
+                <span>Debian / Ubuntu / Raspberry Pi OS (.deb)</span>
+                <button class="copy-btn" data-copy="#code-deb" aria-label="Copy command">📋 COPY</button>
+              </div>
+              <pre><code id="code-deb"># Download the .deb from Releases and install:
+sudo apt-get install ./linapple-latest-linux-x86_64.deb   # on x86_64
+sudo apt-get install ./linapple-latest-linux-arm64.deb    # on ARM64 / Raspberry Pi</code></pre>
+            </div>
+          </div>
+
+          <div class="tab-panel" role="tabpanel" id="tab-rpm" aria-labelledby="tab-rpm-btn" hidden>
+            <div class="code-box">
+              <div class="code-header">
+                <span>Fedora / RHEL / AlmaLinux / Rocky Linux (.rpm)</span>
+                <button class="copy-btn" data-copy="#code-rpm" aria-label="Copy command">📋 COPY</button>
+              </div>
+              <pre><code id="code-rpm"># Download the .rpm and install with DNF:
+sudo dnf install ./linapple-latest-linux-x86_64.rpm</code></pre>
+            </div>
+          </div>
+
+          <div class="tab-panel" role="tabpanel" id="tab-arch" aria-labelledby="tab-arch-btn" hidden>
+            <div class="code-box">
+              <div class="code-header">
+                <span>Arch Linux / Manjaro / CachyOS (.pkg.tar.zst)</span>
+                <button class="copy-btn" data-copy="#code-arch" aria-label="Copy command">📋 COPY</button>
+              </div>
+              <pre><code id="code-arch"># Install via pacman:
+sudo pacman -U ./linapple-latest-1-x86_64.pkg.tar.zst</code></pre>
+            </div>
+          </div>
+
+          <div class="tab-panel" role="tabpanel" id="tab-tar" aria-labelledby="tab-tar-btn" hidden>
+            <div class="code-box">
+              <div class="code-header">
+                <span>Portable Archive (No Installation Needed)</span>
+                <button class="copy-btn" data-copy="#code-tar" aria-label="Copy command">📋 COPY</button>
+              </div>
+              <pre><code id="code-tar">tar -xvf linapple-latest-linux-x86_64.tar.gz
+cd linapple-latest-linux-x86_64
+./bin/linapple --autoboot --d1 share/linapple/Master.dsk</code></pre>
+            </div>
+          </div>
+
+          <div class="tab-panel" role="tabpanel" id="tab-source" aria-labelledby="tab-source-btn" hidden>
+            <div class="code-box">
+              <div class="code-header">
+                <span>Clone & Build with CMake (SDL3 Default)</span>
+                <button class="copy-btn" data-copy="#code-source" aria-label="Copy command">📋 COPY</button>
+              </div>
+              <pre><code id="code-source">git clone https://github.com/linappleii/linapple.git
+cd linapple
+cmake -B build -DBUILD_TESTING=OFF
+cmake --build build -j$(nproc)
+./build/linapple --autoboot --d1 res/Master.dsk</code></pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- Latest Release Widget (Dynamic API Fetch) -->
+        <div class="release-card" id="release-card">
+          <div class="release-info">
+            <span class="release-tag" id="release-version">Latest Release</span>
+            <h3 class="release-name" id="release-title">LinApple Release</h3>
+            <p class="release-notes" id="release-description">Fetching release metadata from GitHub...</p>
+          </div>
+          <div class="release-actions">
+            <a href="https://github.com/linappleii/linapple/releases/latest" id="release-download-link" target="_blank" rel="noopener noreferrer" class="retro-btn btn-primary">
+              📦 VIEW ALL RELEASE ASSETS
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Multi-Frontend Architecture -->
+    <section class="section frontends-section" id="frontends">
+      <div class="container">
+        <div class="section-heading">
+          <span class="section-pre">TIERED DECOUPLED DESIGN</span>
+          <h2 class="section-title">CHOOSE YOUR FRONTEND</h2>
+          <p class="section-desc">LinApple features a decoupled architecture with dedicated frontends for every modern and vintage Linux environment.</p>
+        </div>
+
+        <div class="cards-grid">
+          <!-- SDL3 -->
+          <div class="feature-card highlight-card">
+            <div class="card-icon">🚀</div>
+            <h3 class="card-title">SDL3 Frontend (Default)</h3>
+            <p class="card-text">
+              First-class hardware-accelerated rendering on modern Linux desktops. Native Wayland, X11, and KMSDRM output with high-DPI scaling and silky 60fps NTSC timing.
+            </p>
+            <div class="card-meta">
+              <span class="tag">Wayland</span>
+              <span class="tag">X11</span>
+              <span class="tag">KMSDRM</span>
+            </div>
+          </div>
+
+          <!-- Terminal TUI -->
+          <div class="feature-card">
+            <div class="card-icon">📟</div>
+            <h3 class="card-title">Terminal TUI Frontend</h3>
+            <p class="card-text">
+              Zero GUI or SDL dependencies. Uses 24-bit Truecolor & Unicode half-block characters to run Apple II games directly inside your standard terminal or remote SSH session!
+            </p>
+            <div class="card-meta">
+              <span class="tag">Truecolor 24-bit</span>
+              <span class="tag">SSH Gaming</span>
+              <span class="tag">Zero GUI</span>
+            </div>
+          </div>
+
+          <!-- Headless -->
+          <div class="feature-card">
+            <div class="card-icon">⚙️</div>
+            <h3 class="card-title">Headless Frontend</h3>
+            <p class="card-text">
+              Blazing-fast CLI execution with zero audio or video overhead. Designed for automated CI regression testing, test suites, and batch-scripting Apple II tasks.
+            </p>
+            <div class="card-meta">
+              <span class="tag">CI / CD</span>
+              <span class="tag">Automated Testing</span>
+              <span class="tag">Headless</span>
+            </div>
+          </div>
+
+          <!-- Legacy SDL2 & SDL1 -->
+          <div class="feature-card">
+            <div class="card-icon">🕹️</div>
+            <h3 class="card-title">SDL2 & SDL1 Frontends</h3>
+            <p class="card-text">
+              Full backward compatibility for older Linux distributions, retro handhelds, and vintage embedded systems that lack SDL3 support.
+            </p>
+            <div class="card-meta">
+              <span class="tag">Retro Handhelds</span>
+              <span class="tag">Debian 12</span>
+              <span class="tag">Embedded</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Key Features & Hardware Engine -->
+    <section class="section features-section" id="features">
+      <div class="container">
+        <div class="section-heading">
+          <span class="section-pre">UNDER THE HOOD</span>
+          <h2 class="section-title">AUTHENTIC HARDWARE EMULATION</h2>
+          <p class="section-desc">Every subsystem faithfully recreates the original Apple II architecture.</p>
+        </div>
+
+        <div class="hardware-grid">
+          <!-- CPU & Memory -->
+          <div class="hw-card">
+            <div class="hw-slot">SLOT 0</div>
+            <h3>6502 / 65C02 &amp; 128K RAM</h3>
+            <p>Cycle-accurate CPU emulation with auxiliary RAM bank-switching, language cards, and 80-column text hardware.</p>
+          </div>
+
+          <!-- Disk Storage -->
+          <div class="hw-card">
+            <div class="hw-slot">SLOT 6</div>
+            <h3>Flexible Disk II Engine</h3>
+            <p>Read and write support for <code>.dsk</code>, <code>.do</code>, <code>.po</code>, <code>.nib</code>, <code>.woz</code> v2, plus built-in direct FTP image streaming.</p>
+          </div>
+
+          <!-- Hard Disk -->
+          <div class="hw-card">
+            <div class="hw-slot">SLOT 7</div>
+            <h3>SmartPort Hard Drives</h3>
+            <p>Massive 32MB storage support with <code>.2mg</code> container parsing and raw <code>.hdv</code> / <code>.po</code> block images for Total Replay and ProDOS.</p>
+          </div>
+
+          <!-- Sound -->
+          <div class="hw-card">
+            <div class="hw-slot">SLOT 4</div>
+            <h3>Mockingboard &amp; Speaker</h3>
+            <p>Dual AY-3-8910 multi-channel audio synthesis, 6522 VIA timers, standard 1-bit toggle speaker, and WAV audio capture.</p>
+          </div>
+
+          <!-- BASIC Live-Sync -->
+          <div class="hw-card">
+            <div class="hw-slot">MODERN</div>
+            <h3>Applesoft BASIC Live-Sync</h3>
+            <p>Write BASIC in your favorite host editor (VS Code, Vim) and have code synchronize bidirectionally into memory in real time via <code>--basic-sync</code>.</p>
+          </div>
+
+          <!-- Debugger -->
+          <div class="hw-card">
+            <div class="hw-slot">DEBUG</div>
+            <h3>Integrated Debugger</h3>
+            <p>Full assembly disassembler, memory inspector, breakpoint/watchpoint engine, and CPU benchmark accessible via <code>F7</code>.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Visual CRT Showcase & Gallery -->
+    <section class="section gallery-section" id="gallery">
+      <div class="container">
+        <div class="section-heading">
+          <span class="section-pre">VINTAGE DISPLAY MODES</span>
+          <h2 class="section-title">AUTHENTIC CRT RENDERING</h2>
+          <p class="section-desc">Experience Apple II software with customizable video modes, scanlines, and authentic artifacting.</p>
+        </div>
+
+        <div class="gallery-showcase">
+          <div class="gallery-nav-bar" role="tablist" aria-label="Featured Games">
+            <button class="game-btn active" role="tab" aria-selected="true" data-img="assets/screenshots/karateka.png" data-title="KARATEKA (1984)" data-author="Jordan Mechner • Brøderbund Software" data-alt="Karateka running in LinApple with authentic Hi-Res graphics">🥋 Karateka</button>
+            <button class="game-btn" role="tab" aria-selected="false" data-img="assets/screenshots/lode-runner.png" data-title="LODE RUNNER (1983)" data-author="Doug Smith • Brøderbund Software" data-alt="Lode Runner running in LinApple with authentic Hi-Res graphics">🏃 Lode Runner</button>
+            <button class="game-btn" role="tab" aria-selected="false" data-img="assets/screenshots/number-munchers.png" data-title="NUMBER MUNCHERS (1986)" data-author="R. Heineman, J. Nelson • MECC" data-alt="Number Munchers running in LinApple with authentic Hi-Res graphics">👾 Number Munchers</button>
+            <button class="game-btn" role="tab" aria-selected="false" data-img="assets/screenshots/oregon-trail.png" data-title="THE OREGON TRAIL (1985)" data-author="R. P. Bouchard, J. Char • MECC" data-alt="The Oregon Trail running in LinApple with authentic Hi-Res graphics">🐂 Oregon Trail</button>
+            <button class="game-btn" role="tab" aria-selected="false" data-img="assets/screenshots/prince-of-persia.png" data-title="PRINCE OF PERSIA (1989)" data-author="Jordan Mechner • Brøderbund Software" data-alt="Prince of Persia running in LinApple with authentic Hi-Res graphics">🗡️ Prince of Persia</button>
+            <button class="game-btn" role="tab" aria-selected="false" data-img="assets/screenshots/wizardry.png" data-title="WIZARDRY: PROVING GROUNDS (1981)" data-author="A. Greenberg, R. Woodhead • Sir-Tech" data-alt="Wizardry running in LinApple with authentic Hi-Res graphics">🧙 Wizardry</button>
+          </div>
+
+          <div class="showcase-viewport scanlines" id="gallery-viewport">
+            <img src="assets/screenshots/karateka.png" alt="Karateka running in LinApple with authentic Apple II Hi-Res graphics" class="gallery-img" id="gallery-img" width="1120" height="768" loading="lazy">
+            <div class="gallery-caption">
+              <span class="gallery-title" id="gallery-title">KARATEKA (1984)</span>
+              <span class="gallery-author" id="gallery-author">Jordan Mechner • Brøderbund Software</span>
+            </div>
+          </div>
+
+          <div class="gallery-controls">
+            <button class="gallery-mode-btn active" data-mode="color">Color NTSC</button>
+            <button class="gallery-mode-btn" data-mode="green">P31 Green Phosphor</button>
+            <button class="gallery-mode-btn" data-mode="amber">P134 Amber Phosphor</button>
+            <button class="gallery-mode-btn" data-mode="rgb">Clean RGB</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Shortcuts & Controls Reference -->
+    <section class="section shortcuts-section" id="shortcuts">
+      <div class="container">
+        <div class="section-heading">
+          <span class="section-pre">KEYBOARD CONTROLS</span>
+          <h2 class="section-title">ESSENTIAL SHORTCUTS</h2>
+          <p class="section-desc">Host keyboard equivalents for Apple II special keys and emulator functions.</p>
+        </div>
+
+        <div class="shortcuts-grid">
+          <!-- Special Keys -->
+          <div class="shortcut-box">
+            <h3>Apple II Special Keys</h3>
+            <div class="shortcut-list">
+              <div class="shortcut-row">
+                <div class="key-combo"><kbd>Super</kbd> / <kbd>Win</kbd></div>
+                <div class="key-desc">Open Apple (Paddle 0)</div>
+              </div>
+              <div class="shortcut-row">
+                <div class="key-combo"><kbd>Alt</kbd></div>
+                <div class="key-desc">Closed Apple (Paddle 1)</div>
+              </div>
+              <div class="shortcut-row">
+                <div class="key-combo"><kbd>Ctrl</kbd> + <kbd>F10</kbd></div>
+                <div class="key-desc">Cold Reset</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Disks & Drives -->
+          <div class="shortcut-box">
+            <h3>Disks &amp; Drives</h3>
+            <div class="shortcut-list">
+              <div class="shortcut-row">
+                <div class="key-combo"><kbd>F3</kbd> / <kbd>F4</kbd></div>
+                <div class="key-desc">Insert Floppy 1 / 2</div>
+              </div>
+              <div class="shortcut-row">
+                <div class="key-combo"><kbd>Ctrl</kbd> + <kbd>F3</kbd> / <kbd>F4</kbd></div>
+                <div class="key-desc">Eject Floppy 1 / 2</div>
+              </div>
+              <div class="shortcut-row">
+                <div class="key-combo"><kbd>Shift</kbd> + <kbd>F3</kbd> / <kbd>F4</kbd></div>
+                <div class="key-desc">Insert Hard Disk</div>
+              </div>
+              <div class="shortcut-row">
+                <div class="key-combo"><kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>F3</kbd> / <kbd>F4</kbd></div>
+                <div class="key-desc">Eject Hard Disk</div>
+              </div>
+              <div class="shortcut-row">
+                <div class="key-combo"><kbd>F5</kbd></div>
+                <div class="key-desc">Swap Floppies 1 &amp; 2</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Display & Emulation -->
+          <div class="shortcut-box">
+            <h3>Display &amp; System</h3>
+            <div class="shortcut-list">
+              <div class="shortcut-row">
+                <div class="key-combo"><kbd>F6</kbd></div>
+                <div class="key-desc">Toggle Fullscreen</div>
+              </div>
+              <div class="shortcut-row">
+                <div class="key-combo"><kbd>F7</kbd></div>
+                <div class="key-desc">Assembly Debugger</div>
+              </div>
+              <div class="shortcut-row">
+                <div class="key-combo"><kbd>F8</kbd></div>
+                <div class="key-desc">Save Screenshot (.bmp)</div>
+              </div>
+              <div class="shortcut-row">
+                <div class="key-combo"><kbd>F9</kbd></div>
+                <div class="key-desc">Cycle Video Modes</div>
+              </div>
+              <div class="shortcut-row">
+                <div class="key-combo"><kbd>F10</kbd> / <kbd>F11</kbd></div>
+                <div class="key-desc">Load / Save State</div>
+              </div>
+              <div class="shortcut-row">
+                <div class="key-combo"><kbd>Pause</kbd></div>
+                <div class="key-desc">Pause Emulation</div>
+              </div>
+              <div class="shortcut-row">
+                <div class="key-combo"><kbd>F12</kbd></div>
+                <div class="key-desc">Quit LinApple</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <span class="footer-logo">🍏 LINAPPLE</span>
+        <p>A modernized, multi-frontend Apple II emulator for Linux.</p>
+        <p class="footer-credit">Based on the historic AppleWin codebase. Maintained by the <a href="https://github.com/linappleii" target="_blank" rel="noopener noreferrer">linappleii</a> community.</p>
+      </div>
+
+      <div class="footer-links">
+        <h4>Navigation</h4>
+        <ul>
+          <li><a href="#quick-start">Installation</a></li>
+          <li><a href="#frontends">Frontends</a></li>
+          <li><a href="#features">Features</a></li>
+          <li><a href="#shortcuts">Shortcuts</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-links">
+        <h4>Resources</h4>
+        <ul>
+          <li><a href="https://github.com/linappleii/linapple" target="_blank" rel="noopener noreferrer">Source Repository</a></li>
+          <li><a href="https://github.com/linappleii/linapple/releases" target="_blank" rel="noopener noreferrer">Releases & Binaries</a></li>
+          <li><a href="https://github.com/linappleii/linapple/blob/master/BUILD.md" target="_blank" rel="noopener noreferrer">Build Guide</a></li>
+          <li><a href="https://github.com/linappleii/linapple/issues" target="_blank" rel="noopener noreferrer">Issue Tracker</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div class="container bottom-inner">
+        <p>Licensed under the <a href="https://github.com/linappleii/linapple/blob/master/COPYING.txt" target="_blank" rel="noopener noreferrer">GNU General Public License v2.0</a>.</p>
+        <p><span class="nowrap">Apple ][</span>, <span class="nowrap">Apple ][+</span>, and <span class="nowrap">Apple //e</span> are trademarks of Apple Inc., referenced solely for historical identification.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
