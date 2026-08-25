@@ -3,6 +3,40 @@
    Aesthetic: Authentic Apple II 16-Color Palette, Phosphor CRT, Retro-Modern
    ========================================================================== */
 
+/* --- 0. Typography & Web Fonts --- */
+@font-face {
+  font-family: 'Fira Code';
+  font-style: normal;
+  font-weight: 400;
+  font-display: optional;
+  src: url('https://fonts.gstatic.com/s/firacode/v27/uU9NCBsR6Z2vfE9aq3bh3dSD.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Fira Code';
+  font-style: normal;
+  font-weight: 600;
+  font-display: optional;
+  src: url('https://fonts.gstatic.com/s/firacode/v27/uU9NCBsR6Z2vfE9aq3bh3dSD.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Fira Code';
+  font-style: normal;
+  font-weight: 700;
+  font-display: optional;
+  src: url('https://fonts.gstatic.com/s/firacode/v27/uU9NCBsR6Z2vfE9aq3bh3dSD.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'VT323';
+  font-style: normal;
+  font-weight: 400;
+  font-display: optional;
+  src: url('https://fonts.gstatic.com/s/vt323/v18/pxiKyp0ihIEF2isfFJU.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
 /* --- 1. Apple II Color Palette & System Theme Variables --- */
 :root {
   /* Official Apple II 16-Color NTSC Palette */
@@ -147,6 +181,10 @@ a {
   color: var(--accent-color);
   text-decoration: none;
   transition: opacity 0.2s ease;
+}
+
+p a {
+  text-decoration: underline;
 }
 
 a:hover {
@@ -699,6 +737,7 @@ a:hover {
   padding: 1.5rem 2rem;
   gap: 1.5rem;
   flex-wrap: wrap;
+  min-height: 120px;
 }
 
 .release-tag {
