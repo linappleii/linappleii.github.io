@@ -132,8 +132,10 @@
               </div>
               <div class="terminal-input-row">
                 <span class="prompt-char">]</span>
-                <input type="text" id="term-input" class="term-input" autocomplete="off" spellcheck="false" placeholder="RUN LINAPPLE" aria-label="Terminal command input">
-                <span class="term-cursor" aria-hidden="true">▌</span>
+                <div class="term-input-wrapper">
+                  <span class="term-text-mirror" id="term-text-mirror" aria-hidden="true"></span><span class="term-cursor" aria-hidden="true">▒</span>
+                  <input type="text" id="term-input" class="term-input" autocomplete="off" spellcheck="false" placeholder="RUN LINAPPLE" aria-label="Terminal command input">
+                </div>
               </div>
               <div class="term-quick-chips">
                 <button type="button" class="chip-btn" data-cmd="CATALOG">CATALOG</button>

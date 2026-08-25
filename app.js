@@ -238,10 +238,21 @@ function initTerminal() {
     }
   }
 
+  const termTextMirror = document.getElementById('term-text-mirror');
+
+  function syncMirror() {
+    if (termTextMirror) {
+      termTextMirror.textContent = termInput.value.toUpperCase();
+    }
+  }
+
+  termInput.addEventListener('input', syncMirror);
+
   termInput.addEventListener('keydown', (e) => {
     if (e.key === 'Enter') {
       const val = termInput.value;
       termInput.value = '';
+      syncMirror();
       executeCommand(val);
     }
   });

@@ -579,11 +579,12 @@ a:hover {
 .terminal-input-row {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.35rem;
   margin-top: 0.5rem;
   padding-top: 0.5rem;
   border-top: 1px solid #1A1A1A;
   z-index: 6;
+  position: relative;
 }
 
 .prompt-char {
@@ -593,20 +594,56 @@ a:hover {
   line-height: 1;
 }
 
-.term-input {
+.term-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
   flex: 1;
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  min-height: 1.5rem;
+}
+
+.term-text-mirror {
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  color: #FFF;
+  white-space: pre;
+  text-transform: uppercase;
+  letter-spacing: normal;
+}
+
+.term-input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
   background: transparent;
   border: none;
-  color: #FFF;
+  color: transparent;
+  caret-color: transparent;
   font-family: var(--font-mono);
   font-size: 0.9rem;
   outline: none;
+  text-transform: uppercase;
+  z-index: 2;
+  padding: 0;
+  margin: 0;
+}
+
+.term-input::placeholder {
+  color: rgba(255, 255, 255, 0.25);
   text-transform: uppercase;
 }
 
 .term-cursor {
   color: var(--accent-color);
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  line-height: 1;
   animation: blink 1s steps(2, start) infinite;
+  user-select: none;
+  pointer-events: none;
 }
 
 @keyframes blink {
